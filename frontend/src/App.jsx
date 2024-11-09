@@ -7,6 +7,7 @@ import SignIn from "./pages/signin/SignIn";
 import SignUp from "./pages/signup/SignUp";
 import Profile from "./pages/profile/Profile";
 import About from "./pages/about/About";
+import "./index.css";
 
 const App = () => {
   return (
