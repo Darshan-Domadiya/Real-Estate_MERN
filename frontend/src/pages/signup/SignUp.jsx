@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "./signup.scss";
 import axios from "axios";
 import SpinnerComponent from "../../components/SpinnerComponent";
+import OAuth from "../../components/OAuth";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -76,11 +77,9 @@ const SignUp = () => {
             </Form.Group>
             <div className="d-flex flex-column gap-2">
               <Button className="btn-dark p-3 fw-bold" type="submit">
-                {isLoading ? <SpinnerComponent /> : "Sign Up"}
+                Sign Up
               </Button>
-              <Button className="btn-danger mt-1  p-3 fw-bold">
-                Sign In with Google
-              </Button>
+              <OAuth />
             </div>
             <div className="mt-2">
               <p>

@@ -1,8 +1,11 @@
 import React from "react";
-import { Button, Container, Form, Nav, Navbar } from "react-bootstrap";
+import { Button, Container, Form, Image, Nav, Navbar } from "react-bootstrap";
 import "./header.scss";
+import { useSelector } from "react-redux";
 
 const Header = () => {
+  const isUser = useSelector((state) => state.user.currentUser);
+
   return (
     <Navbar collapseOnSelect expand="md" className="bg-body-secondary p-3">
       <Container>
@@ -28,7 +31,18 @@ const Header = () => {
           <Nav>
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="/about">About</Nav.Link>
-            <Nav.Link href="/signin">Sign In</Nav.Link>
+            <Nav.Link href="/profile">
+              {isUser ? (
+                <Image
+                  src={isUser.profileImage}
+                  className="img-fluid rounded-5 object-fit-cover"
+                  height="35px"
+                  width="35px"
+                />
+              ) : (
+                " Sign In"
+              )}
+            </Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

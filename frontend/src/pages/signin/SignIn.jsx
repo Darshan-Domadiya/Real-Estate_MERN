@@ -10,6 +10,7 @@ import {
   signInSuccess,
 } from "../../store/userSlices/userSlice";
 import SpinnerComponent from "../../components/SpinnerComponent";
+import OAuth from "../../components/OAuth";
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -36,8 +37,8 @@ const SignIn = () => {
       });
 
       if (response.status === 200) {
-        dispatch(signInSuccess(response.data));
-        console.log("User logged in successfully!", response.data);
+        dispatch(signInSuccess(response.data.user));
+        console.log("User logged in successfully!", response.data.user);
         navigate("/");
       }
     } catch (error) {
@@ -76,9 +77,7 @@ const SignIn = () => {
               <Button className="p-3 btn-dark fw-bold" type="submit">
                 {isLoading ? <SpinnerComponent /> : "Sign In"}
               </Button>
-              <Button className="p-3 btn-danger fw-bold">
-                Continue with Google
-              </Button>
+              <OAuth />
             </div>
           </Form>
           <div className="mt-2">

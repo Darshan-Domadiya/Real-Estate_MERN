@@ -9,21 +9,27 @@ import Profile from "./pages/profile/Profile";
 import About from "./pages/about/About";
 import "./index.css";
 import { Provider } from "react-redux";
-import { store } from "./store/store.js";
+import { persistor, store } from "./store/store.js";
+import { PersistGate } from "redux-persist/integration/react";
+import PrivateRoute from "./components/PrivateRoute.jsx";
 const App = () => {
   return (
     <Provider store={store}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<Home />} />
-            <Route path="/signin" element={<SignIn />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/about" element={<About />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <PersistGate persistor={persistor}>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<Home />} />
+              <Route path="/signin" element={<SignIn />} />
+              <Route path="/signup" element={<SignUp />} />
+              <Route path="/about" element={<About />} />
+              <Route element={<PrivateRoute />}>
+                <Route path="/profile" element={<Profile />} />
+              </Route>
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </PersistGate>
     </Provider>
   );
 };

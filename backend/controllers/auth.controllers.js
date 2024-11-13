@@ -1,5 +1,6 @@
 import User from "../models/user.models.js";
 import { createUserToken } from "../utils/userToken.js";
+import bcrypt from "bcrypt";
 
 async function signUp(req, res) {
   const { username, email, password } = req.body;
@@ -59,8 +60,51 @@ async function signin(req, res) {
   res.cookie("token", token).status(200).json({
     error: false,
     message: "User signin successfully!",
-    rest,
+    user: rest,
   });
 }
 
-export { signUp, signin };
+async function logInWithGoogle(req, res) {
+  const user = await User.findOne({ email: req.body.email });
+
+  if (user) {
+    const token = createUserToken(user);
+    const { password: password, ...rest } = user._doc;
+    res.cookie("token", token).status(200).json({
+      error: false,
+      message: "User loggedIn with google successfully!",
+      user: user,
+    });
+  } else {
+    const generatedRandomPassword = Math.random().toString(36).slice(-8);
+    const hashedPassword = await bcrypt.hash(generatedRandomPassword, 10);
+
+    const newUser = await User.create({
+      username:
+        req.body.username.split(" ").join("").toLowerCase() +
+        Math.floor(Math.random() * 10000).toString(),
+      email: req.body.email,
+      profileImage: req.body.profilImage,
+      password: hashedPassword,
+    });
+
+    if (!newUser) {
+      return res.status(400).json({
+        error: true,
+        message: "Something went wrong while log in with google!",
+      });
+    }
+
+    const userToken = createUserToken(newUser);
+
+    const { password: password, ...rest } = newUser._doc;
+
+    res.cookie("token", userToken).status(200).json({
+      error: false,
+      message: "User logged in with google successfully!",
+      user: rest,
+    });
+  }
+}
+
+export { signUp, signin, logInWithGoogle };
