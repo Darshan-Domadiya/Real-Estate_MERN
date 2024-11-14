@@ -10,6 +10,4 @@ function createUserToken(user) {
   );
 }
 
-function validateToken() {}
-
-export { createUserToken, validateToken };
+export { createUserToken };

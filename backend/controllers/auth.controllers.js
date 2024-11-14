@@ -107,4 +107,12 @@ async function logInWithGoogle(req, res) {
   }
 }
 
-export { signUp, signin, logInWithGoogle };
+async function signOutUser(req, res) {
+  res.clearCookie("token");
+
+  res
+    .status(200)
+    .json({ error: false, message: "User sign out successfully!" });
+}
+
+export { signUp, signin, logInWithGoogle, signOutUser };

@@ -1,8 +1,10 @@
 import { Router } from "express";
-import { test } from "../controllers/user.controllers.js";
+import { deleteUser, updateUser } from "../controllers/user.controllers.js";
+import { verifyUserByToken } from "../middlewares/user.middlewares.js";
 
 const router = Router();
 
-router.get("/test", test);
+router.post("/update/:id", verifyUserByToken, updateUser);
+router.delete("/delete/:id", verifyUserByToken, deleteUser);
 
 export default router;

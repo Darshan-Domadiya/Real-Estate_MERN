@@ -9,7 +9,7 @@ const Header = () => {
   return (
     <Navbar collapseOnSelect expand="md" className="bg-body-secondary p-3">
       <Container>
-        <Navbar.Brand href="#home">
+        <Navbar.Brand href="/">
           <div className="fw-bold">
             <span className="logo1">Avenue</span>
             <span className="logo2">Realtor</span>
@@ -33,12 +33,14 @@ const Header = () => {
             <Nav.Link href="/about">About</Nav.Link>
             <Nav.Link href="/profile">
               {isUser ? (
-                <Image
-                  src={isUser.profileImage}
-                  className="img-fluid rounded-5 object-fit-cover"
-                  height="35px"
-                  width="35px"
-                />
+                <div className="headerProfileImage-div d-flex align-items-center justify-content-center">
+                  <Image
+                    src={isUser.profileImage}
+                    className=" object-fit-cover headerProfileImage"
+                    height="100%"
+                    width="100%"
+                  />
+                </div>
               ) : (
                 " Sign In"
               )}

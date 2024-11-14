@@ -8,19 +8,27 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { app } from "../../firebase.js";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import {
+  deleteUserDetails,
+  updateUserDetails,
+} from "../../store/userSlices/userSlice.js";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const { currentUser } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   const imageRef = useRef(null);
   const [image, setImage] = useState(undefined);
   const [imagePercentage, setImagePercentage] = useState(0);
   const [profileImageData, setProfileImageData] = useState({});
   const [imageError, setImageError] = useState(false);
-  const [updatedFormData, setUpdatedFormData] = useState({
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
     username: currentUser.username,
     email: currentUser.email,
-    password: currentUser.password,
+    password: "",
   });
 
   useEffect(() => {
@@ -29,6 +37,7 @@ const Profile = () => {
     }
   }, [image]);
 
+  // Uploading image...
   const handleImageUpload = async (image) => {
     try {
       const storage = getStorage(app);
@@ -63,11 +72,59 @@ const Profile = () => {
     }
   };
 
-  console.log(imagePercentage);
-  console.log(profileImageData);
-
   const handleInputChange = (e) => {
-    setUpdatedFormData({ ...updatedFormData, [e.target.name]: e.target.value });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  // Updating user details
+  const handleUpdateSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post(`/api/user/update/${currentUser._id}`, {
+        username: formData.username,
+        email: formData.email,
+        password: formData.password,
+        profileImage: profileImageData.profileImage || currentUser.profileImage,
+      });
+
+      if (response.status === 200) {
+        dispatch(updateUserDetails(response.data.user));
+        console.log("User details updated successfully!", response.data);
+      }
+    } catch (error) {
+      console.log("ERROR while updating user details!", error);
+    }
+  };
+
+  // User sign out.
+  const handleSignOutClick = async () => {
+    try {
+      const response = await axios.get("/api/auth/signout");
+      if (response.status === 200) {
+        console.log("User signed out sucessfully!", response);
+        navigate("/");
+        dispatch(deleteUserDetails());
+      }
+    } catch (error) {
+      console.log("Error while sign out!", error);
+    }
+  };
+
+  // Delete user account.
+  const handleDeleteClick = async () => {
+    try {
+      const response = await axios.delete(
+        `/api/user/delete/${currentUser._id}`
+      );
+      if (response.status === 200) {
+        console.log("User deleted successfully!", response.data);
+        dispatch(deleteUserDetails());
+        navigate("/");
+      }
+    } catch (error) {
+      console.log("Error while deleting the user!", error);
+    }
   };
 
   return (
@@ -82,16 +139,17 @@ const Profile = () => {
             hidden
             onChange={(e) => setImage(e.target.files[0])}
           />
-          <Form className="text-center">
+          <Form className="text-center" onSubmit={handleUpdateSubmit}>
             <div className="d-flex flex-column text-center mb-2">
               <div className="">
                 <Image
                   src={
                     profileImageData.profileImage || currentUser.profileImage
                   }
-                  className="img-fluid object-fit-cover rounded-4 mb-3 border"
+                  alt="Profile Image"
+                  className="img-fluid object-fit-cover rounded-3 mb-3 border"
                   width="130px"
-                  height="170px"
+                  height="130px"
                   onClick={() => imageRef.current.click()}
                 />
               </div>
@@ -115,7 +173,7 @@ const Profile = () => {
                 className="bg-secondary-subtle p-3"
                 placeholder="username"
                 onChange={handleInputChange}
-                value={updatedFormData.username}
+                defaultValue={currentUser.username}
                 name="username"
               />
             </Form.Group>
@@ -126,7 +184,7 @@ const Profile = () => {
                 placeholder="email"
                 onChange={handleInputChange}
                 name="email"
-                value={updatedFormData.email}
+                defaultValue={currentUser.email}
               />
             </Form.Group>
             <Form.Group className="mb-3">
@@ -139,16 +197,30 @@ const Profile = () => {
               />
             </Form.Group>
             <div className="d-flex flex-column gap-2 ">
-              <Button className="btn-dark p-3 fw-medium">Update</Button>
+              <Button className="btn-dark p-3 fw-medium" type="submit">
+                Update
+              </Button>
               <Button className="btn-success mt-1 p-3 fw-medium">
                 Create Listing
               </Button>
             </div>
-            <div className="d-flex align-items-center justify-content-between mt-1 text-danger">
-              <span>Delete Account</span>
-              <span>Sign Out</span>
-            </div>
           </Form>
+          <div className="d-flex align-items-center justify-content-between mt-1 text-danger">
+            <span
+              className="fw-medium"
+              style={{ cursor: "pointer" }}
+              onClick={handleDeleteClick}
+            >
+              Delete Account
+            </span>
+            <span
+              className="fw-medium"
+              style={{ cursor: "pointer" }}
+              onClick={handleSignOutClick}
+            >
+              Sign Out
+            </span>
+          </div>
           <p className="mt-4 text-center fw-medium">
             {" "}
             <span>Show listings </span>
