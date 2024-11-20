@@ -13,6 +13,7 @@ import { persistor, store } from "./store/store.js";
 import { PersistGate } from "redux-persist/integration/react";
 import PrivateRoute from "./components/PrivateRoute.jsx";
 import CreateListing from "./components/createListing/CreateListing.jsx";
+import UpdateListing from "./components/updateListing/UpdateListing.jsx";
 const App = () => {
   return (
     <Provider store={store}>
@@ -25,6 +26,10 @@ const App = () => {
               <Route path="/signup" element={<SignUp />} />
               <Route path="/about" element={<About />} />
               <Route path="/create-listing" element={<CreateListing />} />
+              <Route
+                path="/update-listing/:listingId"
+                element={<UpdateListing />}
+              />
               <Route element={<PrivateRoute />}>
                 <Route path="/profile" element={<Profile />} />
               </Route>

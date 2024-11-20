@@ -292,7 +292,12 @@ const Profile = () => {
                     >
                       DELETE
                     </span>
-                    <span className="text-success">EDIT</span>
+                    <Link
+                      className="text-decoration-none"
+                      to={`/update-listing/${listing._id}`}
+                    >
+                      <span className="text-success">EDIT</span>
+                    </Link>
                   </div>
                 </div>
               ))}
