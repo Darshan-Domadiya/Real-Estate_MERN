@@ -14,7 +14,7 @@ import {
   deleteUserDetails,
   updateUserDetails,
 } from "../../store/userSlices/userSlice.js";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -24,6 +24,7 @@ const Profile = () => {
   const [imagePercentage, setImagePercentage] = useState(0);
   const [profileImageData, setProfileImageData] = useState({});
   const [imageError, setImageError] = useState(false);
+  const [showUserListings, setShowUserListings] = useState([]);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: currentUser.username,
@@ -127,12 +128,41 @@ const Profile = () => {
     }
   };
 
+  // Show user's listings...
+  const handleShowListingsClick = async () => {
+    try {
+      const response = await axios.get(`/api/user/listing/${currentUser._id}`);
+
+      if (response.status === 200) {
+        console.log("User listings", response.data);
+        setShowUserListings(response.data.listings);
+      }
+    } catch (error) {
+      console.log("ERROR while showing listings!", error);
+    }
+  };
+
+  const handleDeleteListingClick = async (id) => {
+    try {
+      const response = await axios.delete(`/api/listing/delete-listing/${id}`);
+      if (response.status === 200) {
+        console.log("User listing deleted successfully!", response.data);
+      }
+      setShowUserListings((prev) =>
+        prev.filter((listing) => listing._id !== id)
+      );
+    } catch (error) {
+      console.log("ERROR while deleting the listing!", error);
+    }
+  };
+
+  console.log(showUserListings);
   return (
     <Container className="mt-5 ">
       <p className="fs-2 fw-bold text-center">PROFILE</p>
 
       <Row className="d-flex align-items-center justify-content-center">
-        <Col xl={5}>
+        <Col xl={5} lg={6} md={6} sm={12}>
           <input
             type="file"
             ref={imageRef}
@@ -200,7 +230,10 @@ const Profile = () => {
               <Button className="btn-dark p-3 fw-medium" type="submit">
                 Update
               </Button>
-              <Button className="btn-success mt-1 p-3 fw-medium">
+              <Button
+                className="btn-success mt-1 p-3 fw-medium"
+                onClick={() => navigate("/create-listing")}
+              >
                 Create Listing
               </Button>
             </div>
@@ -223,8 +256,48 @@ const Profile = () => {
           </div>
           <p className="mt-4 text-center fw-medium">
             {" "}
-            <span>Show listings </span>
+            <span
+              className="text-success cursor-pointer"
+              onClick={handleShowListingsClick}
+            >
+              Show listings{" "}
+            </span>
           </p>
+
+          {showUserListings && showUserListings.length > 0 && (
+            <div>
+              <p className="fw-bold fs-3 text-center">Your Listings</p>
+              {showUserListings.map((listing) => (
+                <div
+                  key={listing._id}
+                  className="border rounded-3 d-flex align-items-center justify-content-between p-3 mb-2"
+                >
+                  <Link to={`/listing/${listing._id}`}>
+                    <Image
+                      src={listing.imageUrls[0]}
+                      className="img-fluid object-fit-cover"
+                      height="80px"
+                      width="80px"
+                    />
+                  </Link>
+                  <Link to={`/listing/${listing._id}`}>
+                    <p className="listing-name fw-medium text-truncate">
+                      {listing.name}
+                    </p>
+                  </Link>
+                  <div className="d-flex flex-column align-items-center fw=-medium cursor-pointer">
+                    <span
+                      className="text-danger"
+                      onClick={() => handleDeleteListingClick(listing._id)}
+                    >
+                      DELETE
+                    </span>
+                    <span className="text-success">EDIT</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </Col>
       </Row>
     </Container>

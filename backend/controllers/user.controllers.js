@@ -1,3 +1,4 @@
+import Listing from "../models/listing.models.js";
 import User from "../models/user.models.js";
 import bcrypt from "bcrypt";
 
@@ -62,6 +63,23 @@ async function deleteUser(req, res) {
     .json({ error: false, message: "User deleted successfully!", user: rest });
 }
 
+async function getUserListings(req, res) {
+  if (req.user._id !== req.params.id) {
+    return res
+      .status(401)
+      .json({ error: true, message: "You can only see your listings!" });
+  }
 
+  const userListings = await Listing.find({ userRef: req.params.id });
 
-export { updateUser, deleteUser };
+  if (!userListings) {
+    return res.status(404).json({
+      error: true,
+      message: "Something went wrong while getting your listings!",
+    });
+  }
+
+  res.status(200).json({ error: false, listings: userListings });
+}
+
+export { updateUser, deleteUser, getUserListings };
