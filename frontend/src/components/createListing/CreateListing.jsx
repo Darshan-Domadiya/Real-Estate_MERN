@@ -311,7 +311,7 @@ const CreateListing = () => {
                       className=" w-25 p-3 border rounded-3"
                       required
                       min="0"
-                      max="100000"
+                      max="1000000"
                       id="discountedPrice"
                       onChange={handleInputsChange}
                       value={formData.discountedPrice}

@@ -280,7 +280,7 @@ const Profile = () => {
                       width="80px"
                     />
                   </Link>
-                  <Link to={`/listing/${listing._id}`}>
+                  <Link className="text-decoration-none" to={`/listing/${listing._id}`}>
                     <p className="listing-name fw-medium text-truncate">
                       {listing.name}
                     </p>
