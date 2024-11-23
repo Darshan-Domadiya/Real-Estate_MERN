@@ -1,10 +1,33 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Container, Form, Image, Nav, Navbar } from "react-bootstrap";
 import "./header.scss";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const isUser = useSelector((state) => state.user.currentUser);
+  const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+
+    const params = new URLSearchParams(window.location.search);
+
+    params.set("searchTerm", searchTerm);
+    const searchQuery = params.toString();
+
+    navigate(`search?${searchQuery}`);
+  };
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const searchTermFromUrl = urlParams.get("searchTerm");
+
+    if (searchTermFromUrl) {
+      setSearchTerm(searchTermFromUrl);
+    }
+  }, [location.search]);
 
   return (
     <Navbar collapseOnSelect expand="md" className="bg-body-secondary p-3">
@@ -18,14 +41,18 @@ const Header = () => {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="m-auto d-none d-md-flex">
-            <Form className="d-flex">
+            <Form className="d-flex" onSubmit={handleSearchSubmit}>
               <Form.Control
                 type="search"
                 placeholder="Search..."
                 className="me-2"
                 aria-label="Search"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
               />
-              <Button variant="outline-success">Search</Button>
+              <Button variant="outline-success" type="submit">
+                Search
+              </Button>
             </Form>
           </Nav>
           <Nav>

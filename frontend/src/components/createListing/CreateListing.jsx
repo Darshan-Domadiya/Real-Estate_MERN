@@ -295,7 +295,7 @@ const CreateListing = () => {
                     onChange={handleInputsChange}
                     value={formData.regularPrice}
                     min="50"
-                    max="1000000"
+                    max="10000000"
                   />
                   <div className="d-flex flex-column align-items-center">
                     <span>Regular Price</span>
@@ -311,7 +311,7 @@ const CreateListing = () => {
                       className=" w-25 p-3 border rounded-3"
                       required
                       min="0"
-                      max="1000000"
+                      max=""                      
                       id="discountedPrice"
                       onChange={handleInputsChange}
                       value={formData.discountedPrice}
