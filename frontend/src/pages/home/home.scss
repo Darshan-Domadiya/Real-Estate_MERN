@@ -1,0 +1,21 @@
+.start-text {
+  color: darkblue;
+  &:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}
+
+.font-size {
+  font-size: 3.5rem;
+}
+
+@media screen and (max-width: 425px) {
+  .font-size {
+    font-size: 2rem;
+  }
+}
+
+.swiperImage-div {
+  height: 600px;
+}
