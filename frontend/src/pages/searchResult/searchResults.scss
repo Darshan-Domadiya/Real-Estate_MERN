@@ -1,0 +1,21 @@
+.filters-col {
+  border-right: 1px solid lightgrey;
+  height: 100vh;
+}
+
+.underline {
+  border-bottom: 1px solid lightgray;
+}
+
+.card {
+  overflow: hidden; /* Ensures the zoom effect stays inside the card */
+  border-radius: 8px; /* Optional: Rounds the card's corners */
+}
+
+.card-img {
+  transition: transform 0.4s ease-in-out; /* Smooth zoom effect */
+}
+
+.card-img:hover {
+  transform: scale(1.09); /* Zooms in the image by 10% */
+}

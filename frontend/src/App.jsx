@@ -15,6 +15,7 @@ import PrivateRoute from "./components/PrivateRoute.jsx";
 import CreateListing from "./components/createListing/CreateListing.jsx";
 import UpdateListing from "./components/updateListing/UpdateListing.jsx";
 import Listing from "./pages/listing/Listing.jsx";
+import SearchResult from "./pages/searchResult/SearchResult.jsx";
 
 const App = () => {
   return (
@@ -28,6 +29,7 @@ const App = () => {
               <Route path="/signup" element={<SignUp />} />
               <Route path="/about" element={<About />} />
               <Route path="/listing/:listingId" element={<Listing />} />
+              <Route path="/search" element={<SearchResult />} />
 
               <Route element={<PrivateRoute />}>
                 <Route path="/profile" element={<Profile />} />
