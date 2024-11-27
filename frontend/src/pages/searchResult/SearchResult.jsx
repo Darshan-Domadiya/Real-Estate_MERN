@@ -243,7 +243,7 @@ const SearchResult = () => {
                 lg={6}
                 xl={4}
                 key={list._id}
-                className="mt-3 mt-sm-0"
+                className="mt-3 "
               >
                 <Link
                   to={`/listing/${list._id}`}
@@ -257,7 +257,7 @@ const SearchResult = () => {
                       src={list.imageUrls[0]}
                     />
                     <Card.Body>
-                      <Card.Title>{list.name}</Card.Title>
+                      <Card.Title className="text-truncate">{list.name}</Card.Title>
 
                       <div className="d-flex small align-items-center gap-1 mt-2">
                         <span className="text-success">

@@ -66,7 +66,7 @@ const Listing = () => {
               <div className="d-flex align-items-center flex-wrap fw-semibold fs-4">
                 {" "}
                 <p> {showListing.name} - </p>
-                <p>$ {showListing.regularPrice}</p>
+                <p>$ {showListing.regularPrice} <span>{showListing.type === "rent"? "/ Month" : ""}</span></p>
               </div>
 
               <div className="d-flex align-items-center gap-2">
@@ -79,7 +79,7 @@ const Listing = () => {
               <div className="mt-3 d-flex flex-column flex-sm-row gap-3">
                 <span className="bg-danger p-width p-1 text-white fw-bold text-center rounded-2">
                   For {showListing.type === "sell" ? "Sale" : "Rent"}{" "}
-                  {showListing.type === "rent" && <span>/ month</span>}
+                 
                 </span>
                 {showListing.offer === true && (
                   <span className="bg-success p-width p-1 text-white fw-bold text-center rounded-2">

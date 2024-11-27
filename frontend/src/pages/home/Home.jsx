@@ -72,8 +72,7 @@ const Home = () => {
           <Col sm={12} xl={6} className="offset-xl-1 mt-4 mt-sm-5">
             <div className="mt-5">
               <h1 className="fw-bold font-size ">
-                Find your next{" "}
-                <span className=" text-dark-emphasis">perfect</span>
+                Find your next <span className=" text-secondary">perfect</span>
                 <br /> place with ease
               </h1>
 
@@ -145,7 +144,9 @@ const Home = () => {
                         src={list.imageUrls[0]}
                       />
                       <Card.Body>
-                        <Card.Title>{list.name}</Card.Title>
+                        <Card.Title className="text-truncate">
+                          {list.name}
+                        </Card.Title>
 
                         <div className="d-flex small align-items-center gap-1 mt-2">
                           <span className="text-success">
@@ -159,7 +160,7 @@ const Home = () => {
 
                         <div className="fw-bold text-secondary d-flex align-items-center mt-3">
                           $<span>{list.regularPrice}</span>
-                          {list.rent === true && <span>/ month</span>}
+                          {list.type === "rent" && <span>/ month</span>}
                         </div>
 
                         <div className="small d-flex  gap-2 mt-3 fw-bold">
@@ -214,7 +215,9 @@ const Home = () => {
                         src={list.imageUrls[0]}
                       />
                       <Card.Body>
-                        <Card.Title>{list.name}</Card.Title>
+                        <Card.Title className="text-truncate">
+                          {list.name}
+                        </Card.Title>
 
                         <div className="d-flex small align-items-center gap-1 mt-2">
                           <span className="text-success">
@@ -283,7 +286,9 @@ const Home = () => {
                         src={list.imageUrls[0]}
                       />
                       <Card.Body>
-                        <Card.Title>{list.name}</Card.Title>
+                        <Card.Title className="text-truncate">
+                          {list.name}
+                        </Card.Title>
 
                         <div className="d-flex small align-items-center gap-1 mt-2">
                           <span className="text-success">

@@ -16,6 +16,7 @@ import CreateListing from "./components/createListing/CreateListing.jsx";
 import UpdateListing from "./components/updateListing/UpdateListing.jsx";
 import Listing from "./pages/listing/Listing.jsx";
 import SearchResult from "./pages/searchResult/SearchResult.jsx";
+import "./index.css";
 
 const App = () => {
   return (
