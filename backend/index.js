@@ -13,10 +13,6 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
-app.get("/", (req, res) => {
-  res.json({ message: "Server started!" });
-});
-
 connectDB();
 
 const __dirname = path.resolve();
