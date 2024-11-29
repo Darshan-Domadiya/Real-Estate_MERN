@@ -124,8 +124,8 @@ const SearchResult = () => {
   return (
     <Container fluid>
       <Row>
-        <Col sm={12} md={5} lg={4} xl={4} className="filters-col  ">
-          <div className="d-flex flex-column mx-4 mt-3 gap-1">
+        <Col sm={12} md={5} lg={4} xl={4} className="border-end  ">
+          <div className="d-flex flex-column mx-4 mt-3 gap-1 ">
             <Form onSubmit={handleFormSubmit}>
               <div className="d-flex align-items-center gap-3 mt-4 ">
                 <span>Search Term :</span>
@@ -231,7 +231,7 @@ const SearchResult = () => {
         </Col>
 
         <Col sm={12} md={7} lg={8} xl={8} className="p-3">
-          <p className="underline fs-3 fw-medium text-secondary-emphasis">
+          <p className="underline fs-3 fw-medium text-secondary-emphasis mt-3 mt-sm-2 p-2 ">
             Listing Results:
           </p>
 
@@ -257,7 +257,9 @@ const SearchResult = () => {
                       src={list.imageUrls[0]}
                     />
                     <Card.Body>
-                      <Card.Title className="text-truncate">{list.name}</Card.Title>
+                      <Card.Title className="text-truncate">
+                        {list.name}
+                      </Card.Title>
 
                       <div className="d-flex small align-items-center gap-1 mt-2">
                         <span className="text-success">
