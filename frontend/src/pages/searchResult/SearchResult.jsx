@@ -249,7 +249,7 @@ const SearchResult = () => {
                   to={`/listing/${list._id}`}
                   className="text-decoration-none"
                 >
-                  <Card className="card" style={{ width: "20rem" }}>
+                  <Card className="card" >
                     <Card.Img
                       variant="top"
                       height="250px"

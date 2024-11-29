@@ -10,6 +10,13 @@
 .card {
   overflow: hidden; /* Ensures the zoom effect stays inside the card */
   border-radius: 8px; /* Optional: Rounds the card's corners */
+  // width: 20rem;
+}
+
+@media screen and (min-width: 319px) and (max-width: 374px) {
+  .card {
+    width: 18rem;
+  }
 }
 
 .card-img {
